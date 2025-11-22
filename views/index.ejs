@@ -3,58 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= pageTitle %></title>
+    <title><%= pageTitle %> - Quản lý Sản phẩm</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
-        h1 { color: #333; }
-        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
-        h2 { border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-top: 30px; }
-        ul { list-style: none; padding: 0; }
-        li { background: #e9ecef; margin-bottom: 8px; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
-        li strong { color: #007bff; }
-        .add-form input[type="text"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 70%; margin-right: 10px; }
-        .add-form button { padding: 8px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        .add-form button:hover { background-color: #218838; }
-        .delete-form { display: inline; }
-        .delete-form button { padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8em; }
-        .delete-form button:hover { background-color: #c82333; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 40px; 
+            background-color: #f0f2f5; 
+            color: #333;
+        }
+        .container { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
+            max-width: 900px; /* Tăng chiều rộng cho bảng */
+            margin: auto; 
+        }
+        h1 { 
+            color: #1e3a8a; /* Màu xanh đậm */
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 { 
+            color: #4b5563; 
+            margin-top: 30px; 
+            margin-bottom: 15px;
+        }
+
+        /* --- Style cho Form Thêm --- */
+        .add-form {
+            display: flex;
+            flex-wrap: wrap; /* Cho phép xuống dòng nếu cần */
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background-color: #f9fafb;
+        }
+        .add-form input[type="text"] { 
+            flex-grow: 1; /* Cho phép các input giãn nở */
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            min-width: 150px;
+        }
+        .add-form button { 
+            padding: 10px 20px; 
+            background-color: #10b981; /* Màu xanh lá cây đẹp hơn */
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .add-form button:hover { background-color: #059669; }
+        
+        /* --- Style cho Bảng Sản phẩm --- */
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .product-table th, .product-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .product-table th {
+            background-color: #f3f4f6;
+            color: #4b5563;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+        .product-table tr:hover {
+            background-color: #eef2ff; /* Hiệu ứng hover nhẹ */
+        }
+        .product-table td:last-child {
+            width: 1%; /* Giữ cột hành động gọn gàng */
+            white-space: nowrap;
+        }
+
+        /* --- Style cho Hành động (Action Buttons) --- */
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .edit-button { 
+            padding: 6px 12px; 
+            background-color: #3b82f6; /* Màu xanh dương */
+            color: white; 
+            border-radius: 4px; 
+            text-decoration: none; 
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+        .edit-button:hover { background-color: #2563eb; }
+        
+        .delete-form { 
+            display: inline; 
+        }
+        .delete-form button { 
+            padding: 6px 12px; 
+            background-color: #ef4444; /* Màu đỏ */
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 0.9em; 
+            transition: background-color 0.3s;
+        }
+        .delete-form button:hover { background-color: #dc2626; }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #6b7280;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1><%= pageTitle %></h1>
+        <h1>🏬 <%= pageTitle %></h1>
 
-        <h2>➕ Thêm Mục Mới</h2>
+        <h2>➕ Thêm Sản phẩm Mới</h2>
         <form class="add-form" action="/add" method="POST">
-            <input type="text" name="productName" placeholder="Enter Name" required>
-            <input type="text" name="productCode" placeholder="Enter Code" required>
-            <input type="text" name="productStoreCode" placeholder="Enter Store Code" required>
-            <button type="submit">Thêm vào danh sách</button>
+            <input type="text" name="productName" placeholder="Tên Sản phẩm" required>
+            <input type="text" name="productCode" placeholder="Mã Sản phẩm" required>
+            <input type="text" name="productStoreCode" placeholder="Mã Cửa hàng" required>
+            <button type="submit">Thêm Sản phẩm</button>
         </form>
+
+        <hr>
 
         <h2>📦 Danh Sách Sản Phẩm Hiện Có</h2>
         <% if (products && products.length > 0) { %>
-            <ul>
-                <% products.forEach(function(product) { %>
-                    <li>
-                        <span><%= product.productCode %> <%= product.productStoreCode %> 
-                            <%= product.productName %> (SL: <%= product.quantity %>) <%= product.productDate %> </span>
-                        <div>
-                            <a href="/edit/<%= product._id %>" class="edit-button">Chỉnh sửa</a>
-                            
-                            <form class="delete-form" action="/delete" method="POST">
-                                <input type="hidden" name="productId" value="<%= product._id %>">
-                                <button type="submit">Xóa</button>
-                            </form>
-                        </div>
-                        </li>
-                <% }); %>
-            </ul>
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Mã SP</th>
+                        <th>Tên Sản phẩm</th>
+                        <th>SL</th>
+                        <th>Giá Gốc</th>
+                        <th>Mã CH</th>
+                        <th>Ngày Thêm</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% products.forEach(function(product) { %>
+                        <tr>
+                            <td><%= product.product_id ? product.product_id : product._id.toString().substring(18) %></td>
+                            <td><strong><%= product.productCode %></strong></td>
+                            <td><%= product.productName %></td>
+                            <td><%= product.quantity %></td>
+                            <td><%= product.productOriginPrice %></td>
+                            <td><%= product.productStoreCode %></td>
+                            <td><%= new Date(product.productDate).toLocaleDateString('vi-VN') %></td> 
+                            <td class="actions">
+                                <a href="/edit/<%= product._id %>" class="edit-button">Chỉnh sửa</a>
+                                <form class="delete-form" action="/delete" method="POST">
+                                    <input type="hidden" name="productId" value="<%= product._id %>">
+                                    <button type="submit">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
         <% } else { %>
-            <p>Không có mặt hàng nào trong cơ sở dữ liệu. Hãy thêm một mặt hàng!</p>
+            <p>Không có sản phẩm nào trong cơ sở dữ liệu.</p>
         <% } %>
 
-        <hr>
+        <div class="note">
+        </div>
     </div>
 </body>
 </html>

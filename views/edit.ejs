@@ -3,45 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= pageTitle %></title>
+    <title>Chỉnh Sửa - <%= product.productName %></title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
-        h1 { color: #333; }
-        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
-        .edit-form label { display: block; margin-top: 10px; font-weight: bold; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 40px; 
+            background-color: #f0f2f5; 
+            color: #333;
+        }
+        .container { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
+            max-width: 600px;
+            margin: auto; 
+        }
+        h1 { 
+            color: #1e3a8a; /* Màu xanh đậm */
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        /* --- Style cho Form Chỉnh sửa --- */
+        .edit-form {
+            display: flex;
+            flex-direction: column; /* Xếp các trường theo cột */
+            gap: 15px; /* Khoảng cách giữa các trường */
+        }
+        .edit-form label { 
+            display: block; 
+            margin-top: 5px; 
+            font-weight: 600; 
+            color: #4b5563;
+        }
         .edit-form input[type="text"], 
-        .edit-form input[type="number"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 95%; margin-top: 5px; }
-        .edit-form button { margin-top: 20px; padding: 10px 15px; background-color: #ffc107; color: #333; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .edit-form button:hover { background-color: #e0a800; }
-        .back-link { display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; }
+        .edit-form input[type="number"] { 
+            padding: 10px; 
+            border: 1px solid #d1d5db; 
+            border-radius: 6px; 
+            width: 100%; 
+            box-sizing: border-box; /* Tính cả padding và border vào chiều rộng */
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .edit-form button { 
+            margin-top: 25px; 
+            padding: 12px 20px; 
+            background-color: #f59e0b; /* Màu vàng cam */
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .edit-form button:hover { 
+            background-color: #d97706; 
+        }
+
+        .back-link { 
+            display: inline-block; 
+            margin-top: 30px; 
+            text-decoration: none; 
+            color: #3b82f6; /* Màu xanh dương */
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            color: #1e40af;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>✍️ Chỉnh Sửa Sản Phẩm: <%= product.productName %></h1>
+        <h1>✍️ Chỉnh Sửa Sản Phẩm: <span style="color:#f59e0b;"><%= product.productName %></span></h1>
 
         <form class="edit-form" action="/edit" method="POST">
             <input type="hidden" name="productId" value="<%= product._id %>">
 
-            <label for="productName">Tên Sản Phẩm:</label>
-            <input type="text" id="productName" name="productName" value="<%= product.productName %>" required>
+            <div class="form-group">
+                <label for="productName">Tên Sản Phẩm:</label>
+                <input type="text" id="productName" name="productName" value="<%= product.productName %>" required>
+            </div>
 
-            <label for="productCode">Mã Sản Phẩm:</label>
-            <input type="text" id="productCode" name="productCode" value="<%= product.productCode %>" required>
+            <div class="form-group">
+                <label for="productCode">Mã Sản Phẩm:</label>
+                <input type="text" id="productCode" name="productCode" value="<%= product.productCode %>" required>
+            </div>
 
-            <label for="productStoreCode">Mã Cửa Hàng:</label>
-            <input type="text" id="productStoreCode" name="productStoreCode" value="<%= product.productStoreCode %>" required>
+            <div class="form-group">
+                <label for="productStoreCode">Mã Cửa Hàng:</label>
+                <input type="text" id="productStoreCode" name="productStoreCode" value="<%= product.productStoreCode %>" required>
+            </div>
             
-            <label for="productOriginPrice">Giá Gốc:</label>
-            <input type="number" id="productOriginPrice" name="productOriginPrice" value="<%= product.productOriginPrice %>" min="0" required>
+            <div class="form-group">
+                <label for="productOriginPrice">Giá Gốc:</label>
+                <input type="number" id="productOriginPrice" name="productOriginPrice" value="<%= product.productOriginPrice %>" min="0" required>
+            </div>
 
-            <label for="productQuantity">Số Lượng:</label>
-            <input type="number" id="productQuantity" name="productQuantity" value="<%= product.quantity %>" min="0" required>
+            <div class="form-group">
+                <label for="productQuantity">Số Lượng:</label>
+                <input type="number" id="productQuantity" name="productQuantity" value="<%= product.quantity %>" min="0" required>
+            </div>
             
-            <button type="submit">Lưu Thay Đổi</button>
+            <button type="submit">💾 Lưu Thay Đổi</button>
         </form>
 
-        <a href="/" class="back-link">← Quay lại danh sách</a>
+        <a href="/" class="back-link">← Quay lại danh sách sản phẩm</a>
     </div>
 </body>
 </html>

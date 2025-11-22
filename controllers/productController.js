@@ -83,11 +83,11 @@ exports.postEditProduct = async (req, res) => {
     
     await product.save(); 
     
-    console.log(`Đã cập nhật mục ID: ${productId}`);
+    console.log(`Updated ID: ${productId}`);
     res.redirect('/'); 
   } catch (err) {
-    console.error('Lỗi khi cập nhật mục:', err);
-    res.status(500).send('Lỗi khi cập nhật mục vào DB');
+    console.error('Error:', err);
+    res.status(500).send('Error DB');
   }
 };
 
@@ -96,10 +96,10 @@ exports.deleteProduct= async (req, res) => {
 
   try {
     await Product.findByIdAndDelete(productId);
-    console.log(`Đã xóa mục ID: ${productId}`);
+    console.log(`Deleted ID: ${productId}`);
     res.redirect('/');
   } catch (err) {
-    console.error('Lỗi khi xóa mục:', err);
-    res.status(500).send('Lỗi khi xóa mục khỏi DB');
+    console.error('Error:', err);
+    res.status(500).send('Error DB');
   }
 };
