@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
+        h1 { color: #333; }
+        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        .edit-form label { display: block; margin-top: 10px; font-weight: bold; }
+        .edit-form input[type="text"], 
+        .edit-form input[type="number"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 95%; margin-top: 5px; }
+        .edit-form button { margin-top: 20px; padding: 10px 15px; background-color: #ffc107; color: #333; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .edit-form button:hover { background-color: #e0a800; }
+        .back-link { display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✍️ Chỉnh Sửa Sản Phẩm: <%= product.productName %></h1>
+
+        <form class="edit-form" action="/edit" method="POST">
+            <input type="hidden" name="productId" value="<%= product._id %>">
+
+            <label for="productName">Tên Sản Phẩm:</label>
+            <input type="text" id="productName" name="productName" value="<%= product.productName %>" required>
+
+            <label for="productCode">Mã Sản Phẩm:</label>
+            <input type="text" id="productCode" name="productCode" value="<%= product.productCode %>" required>
+
+            <label for="productStoreCode">Mã Cửa Hàng:</label>
+            <input type="text" id="productStoreCode" name="productStoreCode" value="<%= product.productStoreCode %>" required>
+            
+            <label for="productOriginPrice">Giá Gốc:</label>
+            <input type="number" id="productOriginPrice" name="productOriginPrice" value="<%= product.productOriginPrice %>" min="0" required>
+
+            <label for="productQuantity">Số Lượng:</label>
+            <input type="number" id="productQuantity" name="productQuantity" value="<%= product.quantity %>" min="0" required>
+            
+            <button type="submit">Lưu Thay Đổi</button>
+        </form>
+
+        <a href="/" class="back-link">← Quay lại danh sách</a>
+    </div>
+</body>
+</html>
